@@ -25,7 +25,7 @@
             </a>
         </li>
         <li class="menu-item">
-            <a href="{{url('/')}}" class="menu-link">
+            <a href="{{url('brands')}}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-registered"></i>
                 <div data-i18n="Dashboards">Marcas</div>
             </a>

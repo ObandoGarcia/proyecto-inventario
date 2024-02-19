@@ -10,12 +10,12 @@ use Illuminate\Routing\Redirector;
 class LoginController extends Controller
 {
     public function login(Request $request){
-        $credenciales =  $request->validate([
+        $credentials =  $request->validate([
             'email' => ['required', 'email', 'string'],
             'password' => ['required', 'string']
         ]);
 
-        if(Auth::attempt($credenciales)){
+        if(Auth::attempt($credentials)){
             $request->session()->regenerate();
             return redirect()->intended('dashboard')->with('status', 'Has iniciado sesion correctamente!');
         }
