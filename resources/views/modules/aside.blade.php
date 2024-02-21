@@ -31,6 +31,12 @@
             </a>
         </li>
         <li class="menu-item">
+            <a href="{{url('state')}}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-candles"></i>
+                <div data-i18n="Dashboards">Estados</div>
+            </a>
+        </li>
+        <li class="menu-item">
             <a href="{{url('/proveedores')}}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-walk"></i>
                 <div data-i18n="Dashboards">Proveedores</div>

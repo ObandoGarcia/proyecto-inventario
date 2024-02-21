@@ -3,7 +3,7 @@
 @section('contenido-dinamico')
     <div class="content-wrapper">
         <div class="container">
-            <h2 class="display-5 fw-bold text-body-emphasis">Marcas</h2>
+            <h2 class="display-5 fw-bold text-body-emphasis">Estados</h2>
             <div class="pt-3 px-4">
                <button class="btn btn-primary"><i class="menu-icon tf-icons bx bx-plus-circle"></i> Agregar nuevo registro</button>
             </div>
@@ -17,9 +17,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($brands as $brandItem )
+                    @foreach ($state as $stateItem )
                         <tr>
-                            <td>{{ $brandItem->name }}</td>
+                            <td>{{ $stateItem->name }}</td>
                             <td>
                                 <button class="btn btn-warning"><i class="menu-icon tf-icons bx bx-edit"></i> Editar</button>
                                 <button class="btn btn-danger"><i class="menu-icon tf-icons bx bx-trash"></i> Eliminar</button>
