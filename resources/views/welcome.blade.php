@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="{{ url('/') }}/assets/vendor/libs/apex-charts/apex-charts.css" />
     <script src="{{ url('/') }}/assets/vendor/js/helpers.js"></script>
     <script src="{{ url('/') }}/assets/js/config.js"></script>
+
   </head>
   <body>
     @if (session('status'))
@@ -54,4 +55,5 @@
     <script src="{{ url('/') }}/assets/js/main.js"></script>
     <script src="{{ url('/') }}/assets/js/dashboards-analytics.js"></script>
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </html>

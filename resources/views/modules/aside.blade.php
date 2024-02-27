@@ -19,19 +19,25 @@
     <ul class="menu-inner py-1">
         <!-- Layouts -->
         <li class="menu-item">
-            <a href="{{url('/')}}" class="menu-link">
+            <a href="{{url('machineries')}}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-bot"></i>
                 <div data-i18n="Dashboards">Maquinaria</div>
             </a>
         </li>
         <li class="menu-item">
-            <a href="{{url('brands')}}" class="menu-link">
+            <a href="{{ url('brands') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-registered"></i>
                 <div data-i18n="Dashboards">Marcas</div>
             </a>
         </li>
         <li class="menu-item">
-            <a href="{{url('/proveedores')}}" class="menu-link">
+            <a href="{{ url('state') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-candles"></i>
+                <div data-i18n="Dashboards">Estados</div>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a href="{{url('suppliers')}}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-walk"></i>
                 <div data-i18n="Dashboards">Proveedores</div>
             </a>
