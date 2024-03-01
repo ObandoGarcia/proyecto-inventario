@@ -43,7 +43,7 @@
             </a>
         </li>
         <li class="menu-item">
-            <a href="{{url('/')}}" class="menu-link">
+            <a href="{{url('projects')}}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-notepad"></i>
                 <div data-i18n="Dashboards">Proyectos</div>
             </a>

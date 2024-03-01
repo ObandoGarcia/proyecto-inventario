@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('name', 100);
             $table->integer('amount');
-            $table->boolean('available');
+            $table->integer('available');
             $table->string('description', 150);
             $table->dateTime('admission_date');
             $table->unsignedInteger('state_id');

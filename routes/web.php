@@ -6,6 +6,7 @@ use App\Http\Controllers\BrandsController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\SuppliersController;
 use App\Http\Controllers\MachineryController;
+use App\Http\Controllers\ProjectController;
 
 //General routes
 Route::view('/', 'welcome');
@@ -38,3 +39,8 @@ Route::get('machineries', [MachineryController::class, 'index'])->name('machiner
 Route::post('create_machineries', [MachineryController::class, 'store'])->name('create_machineries')->middleware('auth');
 Route::put('update_machineries/{id}', [MachineryController::class, 'update'])->name('update_machineries')->middleware('auth');
 Route::put('update_machineries_state/{id}', [MachineryController::class, 'update_state'])->name('update_machineries_state')->middleware('auth');
+Route::delete('delete_machineries/{id}', [MachineryController::class, 'delete'])->name('delete_machineries')->middleware('auth');
+
+
+//Project route
+Route::get('projects', [ProjectController::class, 'index'])->name('projects')->middleware('auth');
