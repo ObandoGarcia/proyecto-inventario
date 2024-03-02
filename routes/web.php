@@ -26,8 +26,6 @@ Route::put('update_brands/{id}', [BrandsController::class, 'update'])->name('upd
 
 //State routes
 Route::get('state', [StateController::class, 'index'])->name('state')->middleware('auth');
-Route::post('create_states', [StateController::class, 'store'])->name('create_states')->middleware('auth');
-Route::put('update_states/{id}', [StateController::class, 'update'])->name('update_states')->middleware('auth');
 
 //Suppliers route
 Route::get('suppliers', [SuppliersController::class, 'index'])->name('suppliers')->middleware('auth');

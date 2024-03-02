@@ -44,7 +44,7 @@ class MachineryController extends Controller
         $machinery->model = $request->post('machinery_model');
         $machinery->series = $request->post('machinery_serie');
         $machinery->description = $request->post('machinery_description');
-        $machinery->amount = 1;
+        $machinery->amount = $request->post('machinery_amount');
         $machinery->admission_date = $request->post('machinery_date');
         $machinery->state_id = $request->post('machinery_state');
         $machinery->available = true;
@@ -62,6 +62,7 @@ class MachineryController extends Controller
         $machinery->model = $request->post('machinery_model_update');
         $machinery->series = $request->post('machinery_serie_update');
         $machinery->description = $request->post('machinery_description_update');
+        $machinery->amount = $request->post('machinery_amount_update');
         $machinery->admission_date = $request->post('machinery_date_update');
         $machinery->brand_id = $request->post('machinery_brand_update');
         $machinery->supplier_id = $request->post('machinery_supplier_update');
@@ -77,11 +78,5 @@ class MachineryController extends Controller
         $machinery->update();
         return back();
     }
-
-    //Delete machinery
-    public function delete($id){
-        $machinery = Machinery::find($id);
-        $machinery->delete();
-        return back();
-    }
 }
+

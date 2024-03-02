@@ -17,9 +17,9 @@
                         <th>Modelo</th>
                         <th>Serie</th>
                         <th>Descripcion</th>
+                        <th>Cantidad disponible</th>
                         <th>Fecha de ingreso</th>
                         <th>Estado</th>
-                        <th>Disponible</th>
                         <th>Marca</th>
                         <th>Proveedor</th>
                         <th>Acciones</th>
@@ -32,6 +32,7 @@
                             <td>{{ $machineryItem->model }}</td>
                             <td>{{ $machineryItem->series }}</td>
                             <td>{{ $machineryItem->description }}</td>
+                            <td>{{ $machineryItem->amount }}</td>
                             <td>{{ $machineryItem->admission_date }}</td>
                             <td>
                                 @if ($machineryItem->state_name == 'Activo')
@@ -44,24 +45,12 @@
                                     <span>{{ $machineryItem->state_name }}</span>
                                 @endif
                             </td>
-
-                            <td>
-                                @if ( $machineryItem->available == true )
-                                    <i class="menu-icon tf-icons bx bx-check"></i>
-                                @else
-                                    <i class="menu-icon tf-icons bx bx-x"></i>
-                                @endif
-                            </td>
                             <td>{{ $machineryItem->brand_name }}</td>
                             <td>{{ $machineryItem->suppliers_name }}</td>
                             <td>
                                 <button type="button" class="btn btn-warning" data-bs-toggle="modal"
                                     data-bs-target="#modalEditMachinery{{ $machineryItem->id }}"><i
                                         class="menu-icon tf-icons bx bx-edit"></i> Editar</button>
-
-                                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                    data-bs-target="#modalDeleteMachinery{{ $machineryItem->id }}"><i
-                                        class="menu-icon tf-icons bx bx-trash"></i> Eliminar</button>
 
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                     data-bs-target="#modalEditMachineryState{{ $machineryItem->id }}"><i
@@ -100,6 +89,9 @@
                                             <label for="descripcion">Descripcion</label>
                                             <input type="text" value="{{ $machineryItem->description }}"
                                                 class="form-control" name="machinery_description_update" required>
+
+                                            <label for="cantidad">Cantidad actual</label>
+                                            <input type="number" class="form-control" value="{{ $machineryItem->amount }}" name="machinery_amount_update" required min="0" step="1">
 
                                             <label for="fechadeingreso">Fecha de ingreso</label>
                                             <input type="datetime-local" value="{{ $machineryItem->admission_date }}"
@@ -175,37 +167,6 @@
                             </div>
                         </div>
 
-                        <!--Delete modal form-->
-                        <div class="modal fade" id="modalDeleteMachinery{{ $machineryItem->id }}" tabindex="-1"
-                            aria-labelledby="modaleditmachinerystate" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar maquinaria</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form action="{{ route('delete_machineries', $machineryItem->id) }}"
-                                            method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <p>Estas seguro de eliminar este registro?</p>
-                                            <p>Nombre: <b>{{ $machineryItem->name }}</b></p>
-                                            <p>Modelo: <b>{{ $machineryItem->model }}</b></p>
-                                            <p>Serie: <b>{{ $machineryItem->series }}</b></p>
-                                            <p>Descripcion: <b>{{ $machineryItem->description }}</b></p>
-                                            <br>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">Cerrar</button>
-                                                <button type="submit" class="btn btn-primary">Eliminar</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     @endforeach
                 </tbody>
             </table>
@@ -235,6 +196,9 @@
 
                         <label for="descripcion">Descripcion</label>
                         <input type="text" class="form-control" name="machinery_description" required>
+
+                        <label for="cantidad">Cantidad a ingresar</label>
+                        <input type="number" class="form-control" name="machinery_amount" required min="0" step="1">
 
                         <label for="fechadeingreso">Fecha de ingreso</label>
                         <input type="datetime-local" class="form-control" name="machinery_date" required>

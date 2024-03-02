@@ -15,6 +15,8 @@ class ProjectController extends Controller
         'projects.end_date', 'projects.state_id', 'state.name as state_name')
         ->get();
 
-        return view('projects.projects', compact('projects'));
+        $states = State::all();
+
+        return view('projects.projects', compact('projects', 'states'));
     }
 }
