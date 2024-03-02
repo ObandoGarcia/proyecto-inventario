@@ -44,7 +44,7 @@ class MachineryController extends Controller
         $machinery->model = $request->post('machinery_model');
         $machinery->series = $request->post('machinery_serie');
         $machinery->description = $request->post('machinery_description');
-        $machinery->amount = $request->post('machinery_amount');
+        $machinery->amount = 1;
         $machinery->admission_date = $request->post('machinery_date');
         $machinery->state_id = $request->post('machinery_state');
         $machinery->available = true;
@@ -58,5 +58,30 @@ class MachineryController extends Controller
     //Update data from database
     public function update(Request $request, $id){
         $machinery = Machinery::find($id);
+        $machinery->name = $request->post('machinery_name_update');
+        $machinery->model = $request->post('machinery_model_update');
+        $machinery->series = $request->post('machinery_serie_update');
+        $machinery->description = $request->post('machinery_description_update');
+        $machinery->admission_date = $request->post('machinery_date_update');
+        $machinery->brand_id = $request->post('machinery_brand_update');
+        $machinery->supplier_id = $request->post('machinery_supplier_update');
+        $machinery->user_id = $request->post('user_id_update');
+        $machinery->update();
+        return back();
+    }
+
+    //Update state
+    public function update_state(Request $request, $id){
+        $machinery = Machinery::find($id);
+        $machinery->state_id = $request->post('machinery_state_update');
+        $machinery->update();
+        return back();
+    }
+
+    //Delete machinery
+    public function delete($id){
+        $machinery = Machinery::find($id);
+        $machinery->delete();
+        return back();
     }
 }
