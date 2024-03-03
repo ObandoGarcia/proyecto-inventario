@@ -10,9 +10,9 @@ return new class extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 100);
+            $table->string('name', 250);
             $table->string('location');
-            $table->string('manager', 75);
+            $table->string('manager', 250);
             $table->dateTime('start_date');
             $table->dateTime('end_date');
             $table->unsignedInteger('state_id');

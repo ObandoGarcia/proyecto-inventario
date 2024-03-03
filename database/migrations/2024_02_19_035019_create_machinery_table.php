@@ -11,11 +11,11 @@ return new class extends Migration
         Schema::create('machinery', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100);
-            $table->string('model', 50);
+            $table->string('model', 100);
             $table->string('series', 100);
-            $table->string('description', 150);
+            $table->text('description');
             $table->integer('amount');
-            $table->dateTime('admission_date', 20);
+            $table->dateTime('admission_date', 30);
             $table->unsignedInteger('state_id');
             $table->boolean('available');
             $table->unsignedInteger('brand_id');

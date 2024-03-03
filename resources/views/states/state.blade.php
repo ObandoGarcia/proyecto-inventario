@@ -3,7 +3,7 @@
 @section('contenido-dinamico')
     <div class="content-wrapper">
         <div class="container">
-            <h2 class="display-5 fw-bold text-body-emphasis">Estados</h2>
+            <h2 class="display-5 fw-bold text-body-emphasis">Estados del sistema</h2>
         </div>
         <div class="table-responsive">
             <table class="table table-hover">

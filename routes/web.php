@@ -23,6 +23,9 @@ Route::post('register', [LoginController::class, 'register']);
 Route::get('brands', [BrandsController::class, 'index'])->name('brands')->middleware('auth');
 Route::post('create_brands', [BrandsController::class, 'store'])->name('create_brands')->middleware('auth');
 Route::put('update_brands/{id}', [BrandsController::class, 'update'])->name('update_brands')->middleware('auth');
+Route::get('inactive_brands', [BrandsController::class, 'inactive'])->name('inactive_brands')->middleware('auth');
+Route::put('change_state/{id}', [BrandsController::class, 'change_state'])->name('change_state')->middleware('auth');
+Route::put('change_state_to_active/{id}', [BrandsController::class, 'change_state_to_active'])->name('change_state_to_active')->middleware('auth');
 
 //State routes
 Route::get('state', [StateController::class, 'index'])->name('state')->middleware('auth');
@@ -31,6 +34,9 @@ Route::get('state', [StateController::class, 'index'])->name('state')->middlewar
 Route::get('suppliers', [SuppliersController::class, 'index'])->name('suppliers')->middleware('auth');
 Route::post('create_suppliers', [SuppliersController::class, 'store'])->name('create_suppliers')->middleware('auth');
 Route::put('update_suppliers/{id}', [SuppliersController::class, 'update'])->name('update_suppliers')->middleware('auth');
+Route::get('inactive_suppliers', [SuppliersController::class, 'inactive'])->name('inactive_suppliers')->middleware('auth');
+Route::put('change_state_suppliers/{id}', [SuppliersController::class, 'change_state_suppliers'])->name('change_state_suppliers')->middleware('auth');
+Route::put('change_state_to_active_suppliers/{id}', [SuppliersController::class, 'change_state_to_active_suppliers'])->name('change_state_to_active_suppliers')->middleware('auth');
 
 //Machinery routes
 Route::get('machineries', [MachineryController::class, 'index'])->name('machineries')->middleware('auth');

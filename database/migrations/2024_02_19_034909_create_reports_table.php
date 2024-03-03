@@ -12,10 +12,12 @@ return new class extends Migration
             $table->id();
             $table->string('title', 50);
             $table->dateTime('creation_date', 25);
-            $table->string('report_type', 25);
-            $table->string('description', 200);
+            $table->string('report_type', 100);
+            $table->text('description');
             $table->string('report_url', 250);
+            $table->unsignedInteger('state_id');
             $table->unsignedInteger('user_id');
+            $table->foreign('state_id')->references('id')->on('state');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });

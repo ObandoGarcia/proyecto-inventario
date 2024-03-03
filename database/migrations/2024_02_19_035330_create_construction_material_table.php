@@ -10,10 +10,10 @@ return new class extends Migration
     {
         Schema::create('construction_material', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 100);
+            $table->string('name', 250);
             $table->integer('amount');
             $table->integer('available');
-            $table->string('description', 150);
+            $table->text('description');
             $table->dateTime('admission_date');
             $table->unsignedInteger('state_id');
             $table->unsignedInteger('supplier_id');

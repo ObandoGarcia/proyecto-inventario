@@ -3,9 +3,10 @@
 @section('contenido-dinamico')
     <div class="content-wrapper">
         <div class="container">
-            <h2 class="display-5 fw-bold text-body-emphasis">Marcas</h2>
+            <h2 class="display-5 fw-bold text-body-emphasis">Marcas activas</h2>
             <div class="pt-3 px-4">
-               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCreateBrand"><i class="menu-icon tf-icons bx bx-plus-circle"></i> Agregar nuevo registro</button>
+               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCreateBrand"><i class="menu-icon tf-icons bx bx-plus-circle"></i> Agregar una nueva marca</button>
+               <a href="inactive_brands"><button type="button" class="btn btn-primary">Ver marcas inactivas</button></a>
             </div>
         </div>
         <div class="table-responsive">
@@ -13,6 +14,7 @@
                 <thead>
                     <tr>
                         <th>Nombre</th>
+                        <th>Estado</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -21,7 +23,17 @@
                         <tr>
                             <td>{{ $brandItem->name }}</td>
                             <td>
+                                @if ($brandItem->state_name == 'Activo')
+                                    <span class="badge text-bg-success">{{ $brandItem->state_name }}</span>
+                                @endif
+                            </td>
+                            <td>
                                 <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalUpdateBrand{{ $brandItem->id }}"><i class="menu-icon tf-icons bx bx-edit"></i> Editar</button>
+                                <form action="{{ route('change_state', $brandItem->id) }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <button type="submit" class="btn btn-danger"><i class="menu-icon tf-icons bx bx-checkbox-minus"></i> Desactivar</button>
+                                </form>
                             </td>
                         </tr>
 
@@ -64,7 +76,7 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">Registrar una nuevar marca</h1>
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Registrar una nueva marca</h1>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">

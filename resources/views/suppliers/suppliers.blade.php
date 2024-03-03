@@ -3,9 +3,10 @@
 @section('contenido-dinamico')
     <div class="content-wrapper">
         <div class="container">
-            <h2 class="display-5 fw-bold text-body-emphasis">Proveedores</h2>
+            <h2 class="display-5 fw-bold text-body-emphasis">Proveedores activos</h2>
             <div class="pt-3 px-4">
-               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCreateSupplier"><i class="menu-icon tf-icons bx bx-plus-circle"></i> Agregar nuevo registro</button>
+               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCreateSupplier"><i class="menu-icon tf-icons bx bx-plus-circle"></i> Agregar nuevo proveedor</button>
+               <a href="inactive_suppliers"><button type="button" class="btn btn-primary">Ver proveedores inactivos</button></a>
             </div>
         </div>
         <div class="table-responsive">
@@ -15,6 +16,7 @@
                         <th>Nombre</th>
                         <th>Telefono</th>
                         <th>Email</th>
+                        <th>Estado</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -25,7 +27,17 @@
                             <td>{{ $supplierItem->phone}}</td>
                             <td>{{ $supplierItem->email}}</td>
                             <td>
+                                @if ($supplierItem->state_name == 'Activo')
+                                    <span class="badge text-bg-success">{{ $supplierItem->state_name }}</span>
+                                @endif
+                            </td>
+                            <td>
                                 <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalUpdateSupplier{{ $supplierItem->id }}"><i class="menu-icon tf-icons bx bx-edit"></i> Editar</button>
+                                <form action="{{ route('change_state_suppliers', $supplierItem->id) }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <button type="submit" class="btn btn-danger"><i class="menu-icon tf-icons bx bx-checkbox-minus"></i> Desactivar</button>
+                                </form>
                             </td>
                         </tr>
 
