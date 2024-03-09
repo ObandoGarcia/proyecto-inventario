@@ -25,7 +25,7 @@ Route::post('create_brands', [BrandsController::class, 'store'])->name('create_b
 Route::put('update_brands/{id}', [BrandsController::class, 'update'])->name('update_brands')->middleware('auth');
 Route::get('inactive_brands', [BrandsController::class, 'inactive'])->name('inactive_brands')->middleware('auth');
 Route::put('change_state/{id}', [BrandsController::class, 'change_state'])->name('change_state')->middleware('auth');
-Route::put('change_state_to_active/{id}', [BrandsController::class, 'change_state_to_active'])->name('change_state_to_active')->middleware('auth');
+Route::put('change_state_to_active_brands/{id}', [BrandsController::class, 'change_state_to_active'])->name('change_state_to_active_brands')->middleware('auth');
 
 //State routes
 Route::get('state', [StateController::class, 'index'])->name('state')->middleware('auth');
@@ -43,8 +43,19 @@ Route::get('machineries', [MachineryController::class, 'index'])->name('machiner
 Route::post('create_machineries', [MachineryController::class, 'store'])->name('create_machineries')->middleware('auth');
 Route::put('update_machineries/{id}', [MachineryController::class, 'update'])->name('update_machineries')->middleware('auth');
 Route::put('update_machineries_state/{id}', [MachineryController::class, 'update_state'])->name('update_machineries_state')->middleware('auth');
-Route::delete('delete_machineries/{id}', [MachineryController::class, 'delete'])->name('delete_machineries')->middleware('auth');
-
+Route::put('change_state_machinery_to_inactive/{id}', [MachineryController::class, 'change_state_machinery_to_inactive'])->name('change_state_machinery_to_inactive')->middleware('auth');
+Route::put('change_state_machinery_to_maintenance/{id}', [MachineryController::class, 'change_state_machinery_to_maintenance'])->name('change_state_machinery_to_maintenance')->middleware('auth');
+Route::put('change_state_to_active/{id}', [MachineryController::class, 'change_state_to_active'])->name('change_state_to_active')->middleware('auth');
+Route::get('inactive_machineries', [MachineryController::class, 'inactive_machineries'])->name('inactive_machineries')->middleware('auth');
+Route::get('maintenance_machineries', [MachineryController::class, 'maintenance_machineries'])->name('maintenance_machineries')->middleware('auth');
 
 //Project route
 Route::get('projects', [ProjectController::class, 'index'])->name('projects')->middleware('auth');
+Route::post('create_project', [ProjectController::class, 'store'])->name('create_project')->middleware('auth');
+Route::put('update_project/{id}', [ProjectController::class, 'update'])->name('update_project')->middleware('auth');
+Route::put('change_state_projects_to_completed/{id}', [ProjectController::class, 'change_state_projects_to_completed'])->name('change_state_projects_to_completed')->middleware('auth');
+Route::put('change_state_projects_to_cancel/{id}', [ProjectController::class, 'change_state_projects_to_cancel'])->name('change_state_projects_to_cancel')->middleware('auth');
+Route::put('change_state_projects_to_pause/{id}', [ProjectController::class, 'change_state_projects_to_pause'])->name('change_state_projects_to_pause')->middleware('auth');
+
+
+

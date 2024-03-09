@@ -27,7 +27,7 @@
                                 @endif
                             </td>
                             <td>
-                                <form action="{{ route('change_state_to_active', $brandItem->id) }}" method="POST">
+                                <form action="{{ route('change_state_to_active_brands', $brandItem->id) }}" method="POST">
                                     @csrf
                                     @method('PUT')
                                     <button type="submit" class="btn btn-success"><i class="menu-icon tf-icons bx bx-check-square"></i> Activar</button>

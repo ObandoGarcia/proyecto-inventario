@@ -33,25 +33,91 @@
                             <td>
                                 @if ($projectsItem->state_name == 'Activo')
                                     <span class="badge text-bg-success">{{ $projectsItem->state_name }}</span>
-                                @elseif ($projectsItem->state_name == 'Inactivo')
+                                @elseif ($projectsItem->state_name == 'Completado')
+                                    <span class="badge text-bg-primary">{{ $projectsItem->state_name }}</span>
+                                @elseif ($projectsItem->state_name == 'Cancelado')
                                     <span class="badge text-bg-danger">{{ $projectsItem->state_name }}</span>
-                                @elseif ($mprojectstem->state_name == 'En mantenimiento')
-                                    <span class="badge text-bg-warning">{{ $projectsItem->state_name }}</span>
+                                @elseif ($projectsItem->state_name == 'En pausa')
+                                    <span class="badge text-bg-info">{{ $projectsItem->state_name }}</span>
                                 @else
                                     <span>{{ $projectsItem->state_name }}</span>
                                 @endif
                             </td>
                             <td>
                                 <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                    data-bs-target="#modalEditProject{{ $projectsItem->name }}"><i
+                                    data-bs-target="#modalEditProject{{ $projectsItem->id }}"><i
                                         class="menu-icon tf-icons bx bx-edit"></i> Editar</button>
 
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#modalEditProjectState{{ $projectsItem->name }}"><i
-                                        class="menu-icon tf-icons bx bx-stats"></i> Estado</button>
+                                <form action="{{ route('change_state_projects_to_completed', $projectsItem->id) }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <button type="submit" class="btn btn-primary"><i
+                                            class="menu-icon tf-icons bx bx-check-square"></i> Marcar completado</button>
+                                </form>
+
+                                <form action="{{ route('change_state_projects_to_cancel', $projectsItem->id) }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <button type="submit" class="btn btn-danger"><i
+                                            class="menu-icon tf-icons bx bx-checkbox-minus"></i> Cancelado</button>
+                                </form>
+
+                                <form action="{{ route('change_state_projects_to_pause', $projectsItem->id) }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <button type="submit" class="btn btn-info"><i
+                                            class="menu-icon tf-icons bx bx-pause"></i> En pausa</button>
+                                </form>
                             </td>
                         </tr>
 
+                        <!--Edit modal form-->
+                        <div class="modal fade" id="modalEditProject{{ $projectsItem->id }}" tabindex="-1"
+                            aria-labelledby="modaleditproject" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Eidtar proyecto existente</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{{ route('update_project', $projectsItem->id) }}" method="POST">
+                                            @csrf
+                                            @method('PUT')
+                                            <label for="nombre">Nombre del projecto</label>
+                                            <input type="text" value="{{ $projectsItem->name }}" class="form-control"
+                                                name="project_name_update" required>
+
+                                            <label for="ubicacion">Ubicacion</label>
+                                            <input type="text" value="{{ $projectsItem->location }}"
+                                                class="form-control" name="project_location_update" required>
+
+                                            <label for="encargado">Encargado</label>
+                                            <input type="text" value="{{ $projectsItem->manager }}" class="form-control"
+                                                name="project_manager_update" required>
+
+                                            <label for="fecha_inicio">Fecha de inicio</label>
+                                            <input type="datetime-local" value="{{ $projectsItem->start_date }}"
+                                                class="form-control" name="project_start_date_update" required>
+
+                                            <label for="fecha_fin">Fecha de finalizacion(estimada)</label>
+                                            <input type="datetime-local" value="{{ $projectsItem->end_date }}"
+                                                class="form-control" name="project_end_date_update" required>
+
+                                            <input type="hidden" value="{{ auth()->user()->id }}" name="user_id">
+
+                                            <br>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Cerrar</button>
+                                                <button type="submit" class="btn btn-primary">Guardar proyecto</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     @endforeach
                 </tbody>
             </table>
@@ -59,16 +125,15 @@
     </div>
 
     <!-- Add modal form -->
-    <div class="modal fade" id="modalCreateProject" tabindex="-1" aria-labelledby="modalcreatebrand"
-        aria-hidden="true">
+    <div class="modal fade" id="modalCreateProject" tabindex="-1" aria-labelledby="modalcreateproject" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Registrar una nueva maquinaria</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Registrar un nuevo projecto</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="" method="POST">
+                    <form action="{{ route('create_project') }}" method="POST">
                         @csrf
                         <label for="nombre">Nombre del projecto</label>
                         <input type="text" class="form-control" name="project_name" required>
@@ -86,11 +151,12 @@
                         <input type="datetime-local" class="form-control" name="project_end_date" required>
 
                         <label for="estado">Estado</label>
-                        <select class="form-select" name="project_state" required>
-                            <option value="" selected>Seleccione un estado</option>
-                            @foreach ($states as $stateSelectItem)
-                                <option value="{{ $stateSelectItem->id }}">{{ $stateSelectItem->name }}</option>
-                            @endforeach
+                        <select class="form-select" name="project_state_select" required>
+                            <option value="">Seleccione un estado</option>
+                            <option value="1">Activo</option>
+                            <option value="4">Completado</option>
+                            <option value="5">Cancelado</option>
+                            <option value="6">En pausa</option>
                         </select>
 
                         <input type="hidden" value="{{ auth()->user()->id }}" name="user_id">

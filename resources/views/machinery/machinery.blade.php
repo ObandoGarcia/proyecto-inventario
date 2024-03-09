@@ -3,10 +3,13 @@
 @section('contenido-dinamico')
     <div class="content-wrapper">
         <div class="container">
-            <h2 class="display-5 fw-bold text-body-emphasis">Maquinaria</h2>
+            <h2 class="display-5 fw-bold text-body-emphasis">Maquinaria activa</h2>
             <div class="pt-3 px-4">
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCreateMachinery"><i
-                        class="menu-icon tf-icons bx bx-plus-circle"></i> Agregar nuevo registro</button>
+                        class="menu-icon tf-icons bx bx-plus-circle"></i> Agregar nueva maquinaria</button>
+                <a href="inactive_machineries"><button type="button" class="btn btn-primary">Ver maquinaria inactiva</button></a>
+                <a href="maintenance_machineries"><button type="button" class="btn btn-primary">Ver maquinaria en
+                        mantenimiento</button></a>
             </div>
         </div>
         <div class="table-responsive">
@@ -17,7 +20,7 @@
                         <th>Modelo</th>
                         <th>Serie</th>
                         <th>Descripcion</th>
-                        <th>Cantidad disponible</th>
+                        <th>¿Esta dispoible?</th>
                         <th>Fecha de ingreso</th>
                         <th>Estado</th>
                         <th>Marca</th>
@@ -32,7 +35,11 @@
                             <td>{{ $machineryItem->model }}</td>
                             <td>{{ $machineryItem->series }}</td>
                             <td>{{ $machineryItem->description }}</td>
-                            <td>{{ $machineryItem->amount }}</td>
+                            <td>
+                                @if ($machineryItem->available == true)
+                                    <i class="menu-icon tf-icons bx bx-check bx-lg bx-tada-hover"></i>
+                                @endif
+                            </td>
                             <td>{{ $machineryItem->admission_date }}</td>
                             <td>
                                 @if ($machineryItem->state_name == 'Activo')
@@ -41,8 +48,6 @@
                                     <span class="badge text-bg-danger">{{ $machineryItem->state_name }}</span>
                                 @elseif ($machineryItem->state_name == 'En mantenimiento')
                                     <span class="badge text-bg-warning">{{ $machineryItem->state_name }}</span>
-                                @else
-                                    <span>{{ $machineryItem->state_name }}</span>
                                 @endif
                             </td>
                             <td>{{ $machineryItem->brand_name }}</td>
@@ -52,9 +57,21 @@
                                     data-bs-target="#modalEditMachinery{{ $machineryItem->id }}"><i
                                         class="menu-icon tf-icons bx bx-edit"></i> Editar</button>
 
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#modalEditMachineryState{{ $machineryItem->id }}"><i
-                                        class="menu-icon tf-icons bx bx-stats"></i> Estado</button>
+                                <form action="{{ route('change_state_machinery_to_inactive', $machineryItem->id) }}"
+                                    method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <button type="submit" class="btn btn-danger"><i
+                                            class="menu-icon tf-icons bx bx-checkbox-minus"></i> Desactivar</button>
+                                </form>
+
+                                <form action="{{ route('change_state_machinery_to_maintenance', $machineryItem->id) }}"
+                                    method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <button type="submit" class="btn btn-info"><i
+                                            class="menu-icon tf-icons bx bx-package"></i> Mantenimiento</button>
+                                </form>
                             </td>
                         </tr>
 
@@ -89,9 +106,6 @@
                                             <label for="descripcion">Descripcion</label>
                                             <input type="text" value="{{ $machineryItem->description }}"
                                                 class="form-control" name="machinery_description_update" required>
-
-                                            <label for="cantidad">Cantidad actual</label>
-                                            <input type="number" class="form-control" value="{{ $machineryItem->amount }}" name="machinery_amount_update" required min="0" step="1">
 
                                             <label for="fechadeingreso">Fecha de ingreso</label>
                                             <input type="datetime-local" value="{{ $machineryItem->admission_date }}"
@@ -129,44 +143,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!--Edit state modal form-->
-                        <div class="modal fade" id="modalEditMachineryState{{ $machineryItem->id }}" tabindex="-1"
-                            aria-labelledby="modaleditmachinerystate" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Cambiar estado</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form action="{{ route('update_machineries_state', $machineryItem->id) }}"
-                                            method="POST">
-                                            @csrf
-                                            @method('PUT')
-                                            <label for="estado">Estado</label>
-                                            <select class="form-select" name="machinery_state_update" required>
-                                                <option value="{{ $machineryItem->state_id }}" selected>
-                                                    {{ $machineryItem->state_name }}</option>
-                                                @foreach ($state as $stateSelectItem)
-                                                    <option value="{{ $stateSelectItem->id }}">
-                                                        {{ $stateSelectItem->name }}</option>
-                                                @endforeach
-                                            </select>
-
-                                            <br>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">Cerrar</button>
-                                                <button type="submit" class="btn btn-primary">Guardar cambios</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                     @endforeach
                 </tbody>
             </table>
@@ -197,19 +173,8 @@
                         <label for="descripcion">Descripcion</label>
                         <input type="text" class="form-control" name="machinery_description" required>
 
-                        <label for="cantidad">Cantidad a ingresar</label>
-                        <input type="number" class="form-control" name="machinery_amount" required min="0" step="1">
-
                         <label for="fechadeingreso">Fecha de ingreso</label>
                         <input type="datetime-local" class="form-control" name="machinery_date" required>
-
-                        <label for="estado">Estado</label>
-                        <select class="form-select" name="machinery_state" required>
-                            <option value="" selected>Seleccione un estado</option>
-                            @foreach ($state as $stateSelectItem)
-                                <option value="{{ $stateSelectItem->id }}">{{ $stateSelectItem->name }}</option>
-                            @endforeach
-                        </select>
 
                         <label for="marca">Marca</label>
                         <select class="form-select" name="machinery_brand" required>

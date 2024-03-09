@@ -36,6 +36,10 @@ class DatabaseSeeder extends Seeder
         $state->save();
 
         $state = new State();
+        $state->name = 'En uso de proyecto';
+        $state->save();
+
+        $state = new State();
         $state->name = 'Reporte impreso';
         $state->save();
 
